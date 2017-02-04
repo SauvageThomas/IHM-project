@@ -1,16 +1,24 @@
-package View;
+package view;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Pixel;
+import model.Pixel;
 import processing.core.PApplet;
+import processing.core.PConstants;
+import view.containers.Figure;
+import view.containers.FigureImage;
+import view.containers.FigurePaint;
+import view.containers.FigureRectangle;
+import view.containers.FigureText;
 
 public class View extends PApplet {
 
 	List<Figure> figures = new ArrayList<>();
 	FigureText focused;
+	Figure buffer;
+	Figure trash;
 
 	public void settings() {
 		fullScreen();
@@ -27,10 +35,6 @@ public class View extends PApplet {
 		frame.setFocusable(false);
 		frame.enableInputMethods(false);
 
-		Figure rect = new FigureRectangle(this, width / 2, height / 2, 240, 190, new Pixel(255));
-		this.figures.add(rect);
-		rect.addSlave(new FigureText(rect, new Point(5, 5), 0, 30, new Pixel(125)));
-
 		Figure paintFigureImage = new FigureImage(this, posXImage, posYImage - 150, 150, 94, new Pixel(0), "paint.jpg");
 		this.figures.add(paintFigureImage);
 
@@ -40,8 +44,15 @@ public class View extends PApplet {
 		Figure textFigureImage = new FigureImage(this, posXImage, posYImage * 2, 105, 131, new Pixel(0), "text.png");
 		this.figures.add(textFigureImage);
 
-		Figure ideaFigure = new FigureIdeaBox(this, width / 2 + 60, height / 2 + 60, 500, 250, new Pixel(255));
-		this.figures.add(ideaFigure);
+		Figure agendaFigureImage = new FigureImage(this, posXImage, posYImage * 3, 150, 113, new Pixel(0),
+				"agenda.png");
+		this.figures.add(agendaFigureImage);
+
+		trash = new FigureImage(this, posXImage, posYImage * 5, 150, 159, new Pixel(0), "trash.jpg");
+
+		Figure rect = new FigureRectangle(this, width / 2, height / 2, 240, 190, new Pixel(255));
+		this.figures.add(rect);
+		rect.addSlave(new FigureText(rect, new Point(5, 5), 0, 30, new Pixel(125)));
 	}
 
 	public void draw() {
@@ -52,6 +63,7 @@ public class View extends PApplet {
 		 */
 
 		fill(255);
+		trash.display();
 		for (Figure c : this.figures) {
 			c.display();
 		}
@@ -62,7 +74,7 @@ public class View extends PApplet {
 
 	public void keyPressed() {
 		if (this.focused != null && key != 65535) {
-			this.focused.addText(Character.toString(key));
+			this.focused.addText(key);
 		}
 	}
 
@@ -76,11 +88,45 @@ public class View extends PApplet {
 		}
 	}
 
+	public void mouseReleased() {
+		System.out.println("Mouse released");
+
+		if (this.buffer != null) {
+			this.figures.add(this.buffer);
+			this.buffer = null;
+		}
+
+		if (trash.isSelected(mouseX, mouseY)) {
+			this.deleteFigure();
+		}
+
+	}
+
 	public void mouseDragged() {
 		for (Figure c : this.figures) {
 			if (c.isLocked()) {
-				c.setPosition(mouseX, mouseY);
+				if (c instanceof FigurePaint && this.mouseButton == PConstants.RIGHT) {
+					((FigurePaint) c).paint(mouseX, mouseY);
+				} else {
+					c.setPosition(mouseX, mouseY);
+				}
 			}
+		}
+	}
+
+	private void deleteFigure() {
+
+		int i = 0;
+		boolean found = false;
+		for (Figure c : this.figures) {
+			if (c.isLocked()) {
+				found = true;
+				break;
+			}
+			i += 1;
+		}
+		if (found) {
+			this.figures.remove(i);
 		}
 	}
 
@@ -88,7 +134,11 @@ public class View extends PApplet {
 		this.focused = figure;
 	}
 
+	public void addFigure(Figure figure) {
+		this.buffer = figure;
+	}
+
 	public static void main(String[] args) {
-		PApplet.main("View.View");
+		PApplet.main("view.View");
 	}
 }

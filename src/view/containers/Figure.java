@@ -1,15 +1,16 @@
-package View;
+package view.containers;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import Model.Pixel;
+import model.Pixel;
 import processing.core.PApplet;
+import view.View;
 
 import java.awt.Point;
 
 public abstract class Figure {
-	protected PApplet p;
+	protected View p;
 
 	protected int x;
 	protected int y;
@@ -26,7 +27,7 @@ public abstract class Figure {
 
 	private Map<Figure, Point> slaves;
 
-	public Figure(PApplet p, int x, int y, int width, int height, Pixel pixel) {
+	public Figure(View p, int x, int y, int width, int height, Pixel pixel) {
 		this.p = p;
 
 		this.x = x;
@@ -104,7 +105,9 @@ public abstract class Figure {
 	}
 
 	public void addSlave(Figure slave/* , int width, int height, Pixel pixel */) {
-		slave.setSize(this.width - 10, slave.height);
+		if (slave.width == 0) {
+			slave.setSize(this.width - 10, slave.height);
+		}
 		this.slaves.put(slave, new Point(slave.x, slave.y));
 	}
 
