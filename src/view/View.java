@@ -26,7 +26,7 @@ public class View extends PApplet {
 
 	public void setup() {
 		int posXImage = width - 150 - 15;
-		int posYImage = 175;
+		int posYImage = height;
 
 		smooth();
 		frame.removeNotify();
@@ -35,20 +35,28 @@ public class View extends PApplet {
 		frame.setFocusable(false);
 		frame.enableInputMethods(false);
 
-		Figure paintFigureImage = new FigureImage(this, posXImage, posYImage - 150, 150, 94, new Pixel(0), "paint.jpg");
+		Figure paintFigureImage = new FigureImage(this, posXImage, posYImage - 150*7, 150, 94, new Pixel(0), "paint.jpg");
 		this.figures.add(paintFigureImage);
 
-		Figure ideaFigureImage = new FigureImage(this, posXImage, posYImage, 150, 145, new Pixel(0), "idea_box.png");
+		Figure ideaFigureImage = new FigureImage(this, posXImage-100, posYImage, 150*6, 145, new Pixel(0), "idea_box.png");
 		this.figures.add(ideaFigureImage);
 
-		Figure textFigureImage = new FigureImage(this, posXImage, posYImage * 2, 105, 131, new Pixel(0), "text.png");
+		Figure textFigureImage = new FigureImage(this, posXImage, posYImage -150*5, 105, 131, new Pixel(0), "text.png");
 		this.figures.add(textFigureImage);
 
-		Figure agendaFigureImage = new FigureImage(this, posXImage, posYImage * 3, 150, 113, new Pixel(0),
+		Figure agendaFigureImage = new FigureImage(this, posXImage, posYImage -150* 4, 150, 113, new Pixel(0),
 				"agenda.png");
 		this.figures.add(agendaFigureImage);
+		
+		Figure cafeFigureImage = new FigureImage(this, posXImage, posYImage -150* 3, 150, 113, new Pixel(0),
+				"cafe.jpg");
+		this.figures.add(cafeFigureImage);
+		
+		Figure menuFigureImage = new FigureImage(this, posXImage, posYImage -150* 2, 150, 113, new Pixel(0),
+				"menu.jpg");
+		this.figures.add(menuFigureImage);
 
-		trash = new FigureImage(this, posXImage, posYImage * 5, 150, 159, new Pixel(0), "trash.jpg");
+		trash = new FigureImage(this, posXImage, posYImage-150, 150, 159, new Pixel(0), "trash.jpg");
 
 		Figure rect = new FigureRectangle(this, width / 2, height / 2, 240, 190, new Pixel(255));
 		this.figures.add(rect);

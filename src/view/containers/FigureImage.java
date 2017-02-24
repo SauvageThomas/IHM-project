@@ -10,11 +10,18 @@ import view.View;
 public class FigureImage extends Figure {
 
 	private PImage image;
-	private String type;
+	protected String type;
+	private boolean son = false;
 
 	public FigureImage(View p, int x, int y, int width, int height, Pixel pixel, String image) {
 		super(p, x, y, width, height, pixel);
 
+		this.init(image);
+	}
+
+	public FigureImage(View p, int x, int y, int width, int height, Pixel pixel, String image, boolean son) {
+		super(p, x, y, width, height, pixel);
+		this.son = son;
 		this.init(image);
 	}
 
@@ -36,9 +43,13 @@ public class FigureImage extends Figure {
 
 	@Override
 	public void setPosition(int x, int y) {
+		super.setPosition(x, y);
+		if (this.son) {
+			return;
+		}
 		// This can't be dragged so no super
 		Figure figure = null;
-		
+
 		switch (type) {
 		case "paint":
 			System.out.println("paint !");
@@ -56,12 +67,24 @@ public class FigureImage extends Figure {
 			System.out.println("agenda !");
 			figure = new FigureAgenda(this.p, this.p.mouseX, this.p.mouseY, 500, 250, new Pixel(255));
 			break;
+		case "cafe":
+			System.out.println("café !");
+			figure = new FigureImage(this.p, this.p.mouseX, this.p.mouseY, 100, 100, new Pixel(255), "cafe.jpg", true);
+			break;
+		case "menu":
+			System.out.println("menu !");
+			figure = new FigureImage(this.p, this.p.mouseX, this.p.mouseY, 100, 100, new Pixel(255), "menu.jpg", true);
+			break;
 		default:
 			break;
 		}
 		if (figure != null) {
 			this.p.addFigure(figure);
 		}
+	}
+
+	public boolean isSon() {
+		return this.son;
 	}
 
 }

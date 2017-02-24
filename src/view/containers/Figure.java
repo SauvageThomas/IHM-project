@@ -77,6 +77,12 @@ public abstract class Figure {
 	protected abstract void draw();
 
 	public void setPosition(int x, int y) {
+		if (!((FigureImage) (this)).isSon()) {
+			if (this instanceof FigureImage
+					&& (!((FigureImage) (this)).type.equals("cafe") || !((FigureImage) (this)).type.equals("menu"))) {
+				return;
+			}
+		}
 		System.out.println("drag !");
 		this.x = x - this.xOffset;
 		this.y = y - this.yOffset;
