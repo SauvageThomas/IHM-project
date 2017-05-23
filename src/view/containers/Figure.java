@@ -77,10 +77,12 @@ public abstract class Figure {
 	protected abstract void draw();
 
 	public void setPosition(int x, int y) {
-		if (!((FigureImage) (this)).isSon()) {
-			if (this instanceof FigureImage
-					&& (!((FigureImage) (this)).type.equals("cafe") || !((FigureImage) (this)).type.equals("menu"))) {
-				return;
+		if (this.getClass().toString().equals(FigureImage.class.toString())) {
+			if (!((FigureImage) (this)).isSon()) {
+				if (this instanceof FigureImage && (!((FigureImage) (this)).type.equals("cafe")
+						|| !((FigureImage) (this)).type.equals("menu"))) {
+					return;
+				}
 			}
 		}
 		System.out.println("drag !");

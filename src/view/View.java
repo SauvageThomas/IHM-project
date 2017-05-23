@@ -59,7 +59,7 @@ public class View extends PApplet {
 		trash = new FigureImage(this, posXImage, posYImage-150, 150, 159, new Pixel(0), "trash.jpg");
 
 		Figure rect = new FigureRectangle(this, width / 2, height / 2, 240, 190, new Pixel(255));
-		this.figures.add(rect);
+		//this.figures.add(rect);
 		rect.addSlave(new FigureText(rect, new Point(5, 5), 0, 30, new Pixel(125)));
 	}
 
