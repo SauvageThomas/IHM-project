@@ -21,7 +21,7 @@ public class View extends PApplet {
 	Figure trash;
 
 	public void settings() {
-		fullScreen();
+		fullScreen(SPAN);
 	}
 
 	public void setup() {
